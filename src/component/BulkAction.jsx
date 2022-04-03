@@ -7,7 +7,7 @@ export default function BulkAction({checkedStateId,handleBulkRemove}) {
   const handleRemove = () =>{
       const action = removeMutiple(checkedStateId)
       dispatch(action)
-      handleBulkRemove(true)
+      handleBulkRemove()
   }
   return (
     <div className='bulkAction' >
