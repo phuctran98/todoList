@@ -19,6 +19,7 @@ export const todoListSlice = createSlice({
             const newItem = action.payload
             state.push(newItem)
             sortItem(state)
+            localStorage.setItem('todoList',state)
             // state = state.slice().sort((a,b)=>{
             //    return new Date(a.dueDate)-new Date(b.dueDate)
             // })

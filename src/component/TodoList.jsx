@@ -9,11 +9,12 @@ export default function TodoList() {
   const todoList = useSelector((state) => state.todoList)
   const [showDetailId, setShowDetailId] = useState('')
   const [isClickCheckBox,setIsClickCheckBox] = useState(false)
+  const [searchTerm,setSearchTerm] = useState('')
   // const [checkedStateId, setCheckedStateId] = useState([]);
   const onViewDetail = (id) => {
     setShowDetailId(showDetailId === id ? '' : id)
   }
-  // console.log('todoList',sortItem(todoList))
+  // bulk action
   const handleCheckedItem = (item,event) => {
     if(event.target.checked){
       checkedStateId.push(item.id)
@@ -26,14 +27,26 @@ export default function TodoList() {
       if(checkedStateId.length===0){
         setIsClickCheckBox(false)
       }
-      console.log('checkedStateId',checkedStateId)
     }
   }
+  //search action
+  const handleChangeSearch = (event)=>{
+    setSearchTerm(event.target.value)
+  }
+
   return (
     <div className='todoListForm'>
-      <input placeholder='Search ...' />
+      <input placeholder='Search ...' 
+      value={searchTerm} onChange={(event)=>handleChangeSearch(event)}
+      />
       {
-        todoList.map((item,index) => (
+        sortItem(todoList).filter(item=>{
+          if(searchTerm == ""){
+            return item
+          }else if(item.title.includes(searchTerm)){
+            return item
+          }
+        }).map((item,index) => (
           <ItemList item={item} key={item.id} handleCheckedItem={handleCheckedItem} index={index} 
             showDetailId={showDetailId}
             viewDetail={onViewDetail}>
