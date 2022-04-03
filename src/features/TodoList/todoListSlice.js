@@ -1,15 +1,7 @@
 import { createSlice, current } from '@reduxjs/toolkit'
 import { sortItem } from '../../modal'
 
-const initialState = [
-    {
-        id: 'l1iio0tx1',
-        title: 'Home work',
-        description : 'Math home work',
-        dueDate: '2023-03-25',
-        priority: 'High',
-    },
-]
+const initialState = localStorage.getItem('todoList') ? JSON.parse(localStorage.getItem('todoList')) : []
 
 export const todoListSlice = createSlice({
     name: 'todoList',
@@ -19,7 +11,7 @@ export const todoListSlice = createSlice({
             const newItem = action.payload
             state.push(newItem)
             sortItem(state)
-            localStorage.setItem('todoList',state)
+            localStorage.setItem('todoList',JSON.stringify(state))
             // state = state.slice().sort((a,b)=>{
             //    return new Date(a.dueDate)-new Date(b.dueDate)
             // })
@@ -32,16 +24,19 @@ export const todoListSlice = createSlice({
             const findIndex = state.findIndex(item=>item.id === editItem.id)
             // console.log('findIndex',findIndex)
             state[findIndex] = editItem
+            localStorage.setItem('todoList',JSON.stringify(state))
         },
         removeItem: (state,action)=>{
             const removeId = action.payload
             state = state.filter(item=>item.id !== removeId)
+            localStorage.setItem('todoList',JSON.stringify(state))
             return state
         },
         removeMutiple : (state,action)=>{
             const arrayId = action.payload
             console.log(arrayId)
             state = state.filter(item => !arrayId.includes(item.id))
+            localStorage.setItem('todoList',JSON.stringify(state))
             return state
         }
     },

@@ -5,9 +5,9 @@ import '../styles/NewTask.scss'
 import uniqid from 'uniqid';
 import { addItem, editItem } from '../features/TodoList/todoListSlice';
 import { useDispatch } from 'react-redux';
-
+const today = formatDate(new Date())
 export default function NewTask({initialState,idItem}) {
-    const { control,register, handleSubmit, formState: { errors } } = useForm({
+    const { control,register, handleSubmit, formState: { errors },setValue  } = useForm({
         defaultValues : initialState
     });
     const dispatch = useDispatch()
@@ -33,11 +33,13 @@ export default function NewTask({initialState,idItem}) {
                 dueDate: data.dueDate,
                 priority: data.priority,
             }
-            console.log('newItem',newItem)
             const action = addItem(newItem)
             dispatch(action)
-        }
-       
+            setValue('title', ''); // ✅ performant
+            setValue('description', ''); // ✅ performant
+            setValue('priority', 'Normal'); // ✅ performant
+            setValue('dueDate',today); // ✅ performant
+        }  
     };
     return (
         <form className='newTaskForm' onSubmit={handleSubmit(onSubmit)}>
@@ -57,8 +59,8 @@ export default function NewTask({initialState,idItem}) {
                 <div>
                     <p className='p_Name'>Due Date</p>
                     <input type="date" {...register("dueDate")}
-                        defaultValue={formatDate(new Date())} control={control}
-                        min={formatDate(new Date())}
+                        defaultValue={today} control={control}
+                        min={today}
                     />
                 </div>
                 <div>

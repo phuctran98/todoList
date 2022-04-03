@@ -2,11 +2,12 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { removeMutiple } from '../features/TodoList/todoListSlice'
 import '../styles/BulkAction.scss'
-export default function BulkAction({checkedStateId}) {
+export default function BulkAction({checkedStateId,handleBulkRemove}) {
   const dispatch = useDispatch()
   const handleRemove = () =>{
       const action = removeMutiple(checkedStateId)
       dispatch(action)
+      handleBulkRemove(true)
   }
   return (
     <div className='bulkAction' >

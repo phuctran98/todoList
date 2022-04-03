@@ -24,10 +24,15 @@ export default function TodoList() {
       const index = checkedStateId.findIndex(id=>id===item.id)
       checkedStateId.splice(index,1)
 
-      if(checkedStateId.length===0){
+      if(checkedStateId.length === 0){
         setIsClickCheckBox(false)
       }
     }
+  }
+  const handleBulkRemove = ()=>{
+    checkedStateId.splice(0,checkedStateId.length)
+    setIsClickCheckBox(false)
+    console.log('checkedStateId',checkedStateId)
   }
   //search action
   const handleChangeSearch = (event)=>{
@@ -55,7 +60,7 @@ export default function TodoList() {
         ))
       }
       {
-        isClickCheckBox && <BulkAction checkedStateId={checkedStateId}></BulkAction>
+        isClickCheckBox && <BulkAction checkedStateId={checkedStateId} handleBulkRemove={handleBulkRemove}></BulkAction>
       }
     </div>
   )
