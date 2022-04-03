@@ -4,14 +4,11 @@ import { removeItem } from '../features/TodoList/todoListSlice'
 import '../styles/ItemList.scss'
 import NewTask from './NewTask'
 
-export default function ItemList({ item, showDetailId, viewDetail,handleCheckedItem,index,checkedState }) {
+export default function ItemList({ item, showDetailId, viewDetail,handleCheckedItem, }) {
   const dispatch = useDispatch()
   const handleRemove =(id)=>{
       const action = removeItem(id)
       dispatch(action)
-  }
-  const handleChangeCheckBox = (index) =>{
-    handleCheckedItem(index)
   }
   return (
     <div className='itemList'>
@@ -19,8 +16,8 @@ export default function ItemList({ item, showDetailId, viewDetail,handleCheckedI
         <div className='itemList__show__name'>
           <input type="checkbox" name={item.title} 
           value={item.title} 
-          checked={checkedState[index]} 
-          onChange={()=>handleChangeCheckBox(index)} 
+          // checked={checkedState[item]} 
+          onChange={(event)=>handleCheckedItem(item,event)} 
           />
           <p>{item.title}</p>
         </div>
